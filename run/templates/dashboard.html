@@ -1,0 +1,28 @@
+{% extends "structure.html" %}
+{% block main %}
+{% for x in restaurants %}
+<div class="row mt-2">
+    
+        <div class="ml-sm-auto col-lg-2 px-4">
+            <img class="mx-auto" src="moose.png">
+        </div>
+        <div class="ml-sm-auto col-lg-8 px-4">
+
+            <h3>{{ restaurant['name'] }}</h3>
+            <h5>{{ restaurant['mlstar']}}</h5>
+
+            <small>{{ restaurant['Address'] }}</small>
+        </div>
+
+        <div class="ml-sm-auto col-lg-2 px-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3333.4027002411012!2d-111.93482648498379!3d33.33442768080733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872b068c480120f7%3A0x51902bd43d96ba09!2s4855+E+Warner+Rd+B9%2C+Tempe%2C+AZ+85284!5e0!3m2!1sen!2sus!4v1539787401915" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>{{Map location of restaurant}}
+        </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+
+    </div>
+
+{% endfor %}
+
+{% endblock main %}
