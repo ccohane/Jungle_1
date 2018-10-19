@@ -1,0 +1,10 @@
+# ignore all files in any directory named lib
+
+lib/
+
+# ignore all .pyc files
+
+*.pyc
+
+
+

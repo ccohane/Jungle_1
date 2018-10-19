@@ -46,9 +46,11 @@ def get_restaurants(user_name):
     Create a recommendation algorith to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
+    pass
 
 def get_review_ML_score(business_id):
     '''
     '''
+    pass
 
 
