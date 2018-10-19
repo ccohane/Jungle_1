@@ -3,10 +3,9 @@ from orm import Database
 
 def create_user(user_name , password):
     with Database() as db:
-        create_table()
         user_name_taken = check_user_exist(user_name)
         if user_name_taken==False:
-            sql='''INSERT INTO users(user_names,password) 
+            sql='''INSERT INTO users(username,password) 
                             Values(?,?);'''
             db.c.execute(sql, (user_name, password))
             return True
@@ -15,7 +14,7 @@ def create_user(user_name , password):
 
 def check_user_exist(user_name):
     with Database() as db:
-        db.c.execute('''SELECT * FROM users WHERE user_names='{}';'''.format(user_name))
+        db.c.execute('''SELECT * FROM users WHERE username='{}';'''.format(user_name))
         result=db.c.fetchone()
 
         if result:
@@ -25,7 +24,7 @@ def check_user_exist(user_name):
 
 def check_user(user_name, password):
     with Database() as db:
-        db.c.execute('''SELECT * FROM users WHERE user_names='{}'
+        db.c.execute('''SELECT * FROM users WHERE username='{}'
                         AND password='{}';'''.format(user_name, password))
         result=db.c.fetchone()
 
@@ -34,19 +33,13 @@ def check_user(user_name, password):
         else:
             return False
 
-def create_table():
-    with Database() as db:
-        db.c.execute('''CREATE TABLE IF NOT EXISTS users(
-                        pk INTEGER PRIMARY KEY AUTOINCREMENT,
-                        user_names VARCHAR,
-                        password VARCHAR);''')
-
 def get_restaurants(user_name):
     '''
     Create a recommendation algorith to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
-    pass
+    restaurants = [{'name': 'Taco Bell', 'mlstar':5, 'Address': '456 Madison Ave, NY'}]
+    return restaurants
 
 def get_review_ML_score(business_id):
     '''

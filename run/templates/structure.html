@@ -116,38 +116,9 @@
 
     </div>
     <hr>
-    {{ block main}}
+    {% block main %}
     
-    <div class="row mt-2">
-        <div class="ml-sm-auto col-lg-2 px-4">
-            <img class="mx-auto" src="moose.png">
-        </div>
-        <div class="ml-sm-auto col-lg-8 px-4">
-
-            <h3>{{ Restaurant Name }}</h3>
-            <h5>{{ Machine Learning Star Review  }}</h5>
-
-            <small>{{Address}}</small>
-            <form action="/dashboard" method="post" >
-                <br>
-                <input name="review" type="text" id="review" class="form-control" placeholder="Write a review" required"" autofocus"">
-                <br>
-                <button class="btn btn-primary " type="submit">Submit</button>
-                <br>
-              </form>
-        </div>
-            
-
-        <div class="ml-sm-auto col-lg-2 px-4">
-            {{Map location of restaurant}}
-            <br>
-            {{Review 5 Star review based on ML}}
-        </div>
-    </div>
-    <hr>
-    <div class="container-fluid">
-
-    {% endblock main%} 
+    {% endblock main %} 
         
 
 

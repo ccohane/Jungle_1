@@ -57,8 +57,8 @@ def logout():
 def dashboard():
     if request.method == 'GET':
         user_name='%s' % escape(session['username'])
-        #restaurants=model.get_restaurants(user_name)
-        return render_template('dashboard.html', )
+        restaurants=model.get_restaurants(user_name)
+        return render_template('dashboard.html', restaurants = restaurants)
     else:
         user_name='%s' % escape(session['username'])
         #restaurants=model.get_restaurants(user_name)
