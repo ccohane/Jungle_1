@@ -41,4 +41,4 @@ cursor.execute(
     );"""
 )
 
-
+connection.close()
