@@ -38,12 +38,28 @@ def get_restaurants(user_name):
     Create a recommendation algorith to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
-    restaurants = [{'name': 'Taco Bell', 'mlstar':5, 'Address': '456 Madison Ave, NY'}]
-    return restaurants
+    with Database() as db:
+        db.c.execute('''SELECT name, stars, address, state, city, postal_code FROM restaurants LIMIT 10;''')
+        results=db.c.fetchall()
+        if results:
+            restaurants = []
+            for row in results:
+                dic = {
+                        'name': row[0],
+                        'mlstar': row[1], 
+                        'Address': row[2]+' '+row[3]+' '+row[4]+' '+row[5]
+                    }
+                restaurants.append(dic)
+            return restaurants
+        else:
+            return false
 
 def get_review_ML_score(business_id):
     '''
     '''
+    #restaurants = [{'name': 'Taco Bell', 'mlstar':5, 'Address': '456 Madison'}]
+
     pass
+
 
 
