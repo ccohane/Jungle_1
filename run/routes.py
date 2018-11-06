@@ -53,7 +53,7 @@ def logout():
     session.pop('username', None)
     return redirect('/go')
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if request.method == 'GET':
         user_name='%s' % escape(session['username'])
@@ -62,7 +62,18 @@ def dashboard():
     else:
         user_name='%s' % escape(session['username'])
         #restaurants=model.get_restaurants(user_name)
-        return render_template('dashboard.html', message='Username Taken')
+        #when preference is chosen, form data will be used 
+        #to recommend restaurants
+        preference = request.form.getlist('preference')
+        #restaurants = model.preference_to_restaurants(preference)
+        return render_template('dashboard.html', message=preference)
+
+@app.route('/preference', methods=['GET', 'POST'])
+def preference():
+    if request.method == 'GET':
+        return render_template('preference.html')
+    else:
+        return render_template('dashboard.html')
 
 
 if __name__=="__main__":

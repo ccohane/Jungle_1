@@ -52,7 +52,7 @@ def get_restaurants(user_name):
                 restaurants.append(dic)
             return restaurants
         else:
-            return false
+            return False
 
 def get_review_ML_score(business_id):
     '''
@@ -61,5 +61,9 @@ def get_review_ML_score(business_id):
 
     pass
 
+def preference_to_restaurants(preference):
+    '''based on the preference provided, recommend restaurants
+    '''
+    pass
 
 
