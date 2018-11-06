@@ -76,6 +76,26 @@ def preference():
         return render_template('dashboard.html')
 
 
+# Search function
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        search_item = request.form['search']
+        return redirect("/searchresult/{}".format(search_item))
+    else:
+        return render_template('search.html')
+
+# Search result function
+@app.route("/searchresult/<search_item>", methods=['GET', 'POST'])
+def searchresult(search_item):
+    if request.method == 'GET':
+        result = model.search(search_item)
+        if result:
+            return render_template('search.html', restaurants = result)
+        else:
+            return render_template('search.html', message = "bad search item")
+
+
 if __name__=="__main__":
     #FIXME change the following server setings from 127.1 to 0.0.0.0
     app.run(host="127.1", port="5000", debug=True)

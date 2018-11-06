@@ -1,0 +1,22 @@
+{% extends "structure.html" %}
+{% block main %}
+{{ message }}
+{% for restaurant in restaurants %}
+<div class="row mt-2">
+        <div class="ml-sm-auto col-lg-8 px-4">
+            <h3>{{ restaurant['name'] }}</h3>
+            <h5>{{ restaurant['mlstar']}}</h5>
+            <small>{{ restaurant['Address'] }}</small>
+        </div>
+
+        <div class="ml-sm-auto col-lg-2 px-4">
+        </div>
+</div>
+    <hr>
+    <div class="container-fluid">
+
+    </div>
+
+{% endfor %}
+
+{% endblock main %}

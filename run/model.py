@@ -66,4 +66,25 @@ def preference_to_restaurants(preference):
     '''
     pass
 
+def search(search_item):
+    '''search the item in restaurant name column
+    '''
+    with Database() as db:
+        db.c.execute('''SELECT name, stars, address, state, city, postal_code FROM restaurants WHERE name LIKE '%{}%';'''.format(search_item))
+        results=db.c.fetchall()
+        if results:
+            restaurants = []
+            for row in results:
+                dic = {
+                    'name': row[0],
+                    'mlstar': row[1],
+                    'Address': row[2]+' '+row[3]+' '+row[4]+' '+row[5]
+                }
+                restaurants.append(dic)
+            return restaurants
+        else:
+            return False
+
+
+
 
