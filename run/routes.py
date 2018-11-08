@@ -45,7 +45,7 @@ def login():
         if model.check_user(username,password):
             return redirect(url_for('index'))
         else:
-            return render_template('login.html', message='Login error')
+            return render_template('login.html', message='Incorrect username or password')
 
 @app.route('/logout')
 def logout():
@@ -65,8 +65,8 @@ def dashboard():
         #when preference is chosen, form data will be used 
         #to recommend restaurants
         preference = request.form.getlist('preference')
-        #restaurants = model.preference_to_restaurants(preference)
-        return render_template('dashboard.html', message=preference)
+        restaurants = model.preference_to_restaurants(preference)
+        return render_template('dashboard.html', message = restaurants)
 
 @app.route('/preference', methods=['GET', 'POST'])
 def preference():

@@ -64,7 +64,25 @@ def get_review_ML_score(business_id):
 def preference_to_restaurants(preference):
     '''based on the preference provided, recommend restaurants
     '''
-    pass
+    dic_restaurants = {}
+    with Database() as db:
+        for element in preference:
+            db.c.execute('''SELECT name FROM restaurants WHERE categories LIKE '%{}%';'''.format(element))
+            results=db.c.fetchall()
+            if results:
+                for row in results:
+                    if row[0] not in dic_restaurants.keys():
+                        dic_restaurants[row[0]] = 1
+                    else:
+                        dic_restaurants[row[0]] += 1
+        sort_restaurants = sorted((value, key) for (key, value) in dic_restaurants.items())
+        sort_restaurants.reverse()
+        #if len(sort_restaurants) <= 5:
+            #for restaurant in sort_restaurants:
+                #db.c.execute('''SELECT name, stars, address, state, city, postal_code FROM restaurants WHERE name ={};'''.format(restaurant[1]))
+
+    return sort_restaurants
+    #for i in range(5):
 
 def search(search_item):
     '''search the item in restaurant name column
