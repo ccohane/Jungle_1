@@ -42,6 +42,7 @@ def get_restaurants(user_name):
     Return as a list of dictionaries 
     '''
     file = open("final_recommend_pickle.pkl",'rb')
+    # add encoding to unicode decode error - 11/13
     recommend = pickle.load(file, encoding='latin1')
     file.close()
     x=recommend[user_name]
