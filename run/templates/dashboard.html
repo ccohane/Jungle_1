@@ -1,16 +1,28 @@
 {% extends "structure.html" %}
 {% block main %}
-{{ message }}
 {% for restaurant in restaurants %}
 <div class="row mt-2">
-        <div class="ml-sm-auto col-lg-8 px-4">
-            <h3>{{ restaurant['name'] }}</h3>
-            <h5>{{ restaurant['mlstar']}}</h5>
-            <small>{{ restaurant['Address'] }}</small>
+        <div class="ml-sm-auto col-lg-4 px-4">
+            <h3>{{ restaurant['Name'] }}</h3>
+            <h5>{{ restaurant['Yelps Average Star'] }}</h5>
+            <small>{{ restaurant['Address'] }} {{ restaurant['Town'] }}</small>
+            <p>{{ restaurant['Categories'] }}</p>
         </div>
 
-        <div class="ml-sm-auto col-lg-2 px-4">
+        <div class="ml-sm-auto col-lg-4 px-4">
+                <form action="/review" method="post" >
+                    <h1 class="h5 mb-3 font-weight-normal">Write a Review</h1>
+                    <input name="business_id" type="hidden" value="{{ restaurant['Business_id'] }}">
+                    <input name="review" type="text" id="review" class="form-control" placeholder="Review" required"" autofocus"">
+                    <h1 class="h5 mb-3 font-weight-normal">Give a Star Rating</h1>
+                    <input name="star" type="text" id="star" class="form-control" placeholder="1, 2, 3, 4, or 5" required"" autofocus"">
+                    <br>
+                    <button class="btn btn-lg btn-primary" type="submit">Submit Review</button>
+                    <br>
+                </form>
         </div>
+        <div class="ml-sm-auto col-lg-2 px-4">
+            </div>
 </div>
     <hr>
     <div class="container-fluid">

@@ -12,7 +12,7 @@ app.secret_key = b'_5#y2L"F4Qhgvf8z\n\xec]/'
 @app.route('/')
 def index():
     if 'username' in session:
-        return redirect("/dashboard")
+        return redirect("/preference")
     return redirect("/go")
 
 @app.route('/go', methods=['GET'])
@@ -58,7 +58,7 @@ def dashboard():
     if request.method == 'GET':
         user_name='%s' % escape(session['username'])
         restaurants=model.get_restaurants(user_name)
-        return render_template('dashboard.html', restaurants = restaurants)
+        return render_template('dashboard.html', restaurants = restaurants[:10])
     else:
         user_name='%s' % escape(session['username'])
         #restaurants=model.get_restaurants(user_name)
@@ -66,14 +66,30 @@ def dashboard():
         #to recommend restaurants
         preference = request.form.getlist('preference')
         restaurants = model.preference_to_restaurants(preference)
-        return render_template('dashboard.html', message = restaurants)
-
+        return render_template('dashboard.html', restaurants = restaurants[:10])
+'''
 @app.route('/preference', methods=['GET', 'POST'])
 def preference():
     if request.method == 'GET':
         return render_template('preference.html')
     else:
         return render_template('dashboard.html')
+'''
+@app.route('/preference', methods=['GET', 'POST'])
+def preference():
+    if request.method == 'GET':
+        return render_template('preference.html')
+    else:
+        preference = request.form.getlist('preference')
+        #similar_user = model.get_user_id(preference)
+        #restaurants = model.get_restaurants(similar_user)
+        recommends = model.get_preference(preference)
+        restaurants=[]
+        for x in recommends:
+            print(x)
+            restaurants.append(model.get_restaurant_data(x))
+        return render_template('dashboard.html', restaurants = restaurants[:10])
+
 
 
 # Search function
@@ -94,6 +110,21 @@ def searchresult(search_item):
             return render_template('search.html', restaurants = result)
         else:
             return render_template('search.html', message = "bad search item")
+
+
+@app.route('/review',methods=['GET','POST'])
+def review():
+    if request.method == 'POST':
+        user_name='%s' % escape(session['username'])
+        business_id = request.form['business_id']
+        review = request.form['review']
+        star = int(request.form['star'])
+        user_name = model.get_user_id(business_id,star)
+        #star = model.get_star(review)
+        model.add_review_to_db(user_name,business_id,star,review)
+        restaurants = model.get_restaurants(user_name)
+
+        return render_template('dashboard.html', restaurants = restaurants[:10])
 
 
 if __name__=="__main__":

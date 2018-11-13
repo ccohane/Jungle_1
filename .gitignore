@@ -1,12 +1,3 @@
-# ignore all files in any directory named lib
-
-lib/
-
-data/
-
-# ignore all .pyc files
-
+*.pkl
+*.db
 *.pyc
-
-
-

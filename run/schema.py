@@ -20,13 +20,13 @@ cursor.execute(
         business_id VARCHAR,
         categories VARCHAR,
         name VARCHAR,
-        is_open VARCHAR,
-        view_count INTEGER,
+        review_count INTEGER,
         stars INTEGER,
         address VARCHAR,
         state VARCHAR,
         city VARCHAR,
-        postal_code VARCHAR
+        postal_code VARCHAR,
+        neighborhood VARCHAR
     );"""
 )
 
@@ -37,8 +37,9 @@ cursor.execute(
         business_id VARCHAR,
         stars INTEGER,
         date  INTEGER,
-        review VARCHAR
+        text VARCHAR
     );"""
 )
 
 connection.close()
+
