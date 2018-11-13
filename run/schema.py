@@ -2,7 +2,7 @@
 
 import sqlite3
 
-connection = sqlite3.connect('jungle.db', check_same_thread=False)
+connection = sqlite3.connect('Jungle.db', check_same_thread=False)
 cursor = connection.cursor()
 
 # TO create db and tables
@@ -10,7 +10,8 @@ cursor.execute(
     """CREATE TABLE users(
         pk INTEGER PRIMARY KEY AUTOINCREMENT,
         username VARCHAR,
-        password VARCHAR
+        password VARCHAR,
+        user_id VARCHAR
     );"""
 )
 

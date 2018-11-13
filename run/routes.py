@@ -1,7 +1,7 @@
 #!usr/bin/env python3
 
 from flask import Flask, render_template, request, redirect, session, jsonify, url_for, escape
-import requests, model
+import requests, model, random
 
 
 app=Flask(__name__)
@@ -57,8 +57,10 @@ def logout():
 def dashboard():
     if request.method == 'GET':
         user_name='%s' % escape(session['username'])
+        user_name= model.get_id_in_matrix(user_name)
         restaurants=model.get_restaurants(user_name)
-        return render_template('dashboard.html', restaurants = restaurants[:10])
+        random.shuffle(restaurants)
+        return render_template('dashboard.html', restaurants = restaurants[:10], message = "Jungle recommends these fine establishments based on your profile!")
     else:
         user_name='%s' % escape(session['username'])
         #restaurants=model.get_restaurants(user_name)
@@ -66,7 +68,8 @@ def dashboard():
         #to recommend restaurants
         preference = request.form.getlist('preference')
         restaurants = model.preference_to_restaurants(preference)
-        return render_template('dashboard.html', restaurants = restaurants[:10])
+        random.shuffle(restaurants)
+        return render_template('dashboard.html', restaurants = restaurants[:10],message = "Jungle recommends these fine establishments based on your profile!")
 '''
 @app.route('/preference', methods=['GET', 'POST'])
 def preference():
@@ -81,14 +84,13 @@ def preference():
         return render_template('preference.html')
     else:
         preference = request.form.getlist('preference')
-        #similar_user = model.get_user_id(preference)
-        #restaurants = model.get_restaurants(similar_user)
+        #user_name='%s' % escape(session['username'])
         recommends = model.get_preference(preference)
         restaurants=[]
-        for x in recommends:
-            print(x)
+        for x in recommends[:50]:
             restaurants.append(model.get_restaurant_data(x))
-        return render_template('dashboard.html', restaurants = restaurants[:10])
+        random.shuffle(restaurants)
+        return render_template('dashboard.html', restaurants = restaurants[:10], message = "Jungle recommends these fine establishments based on the preferences you entered!")
 
 
 
@@ -105,11 +107,21 @@ def search():
 @app.route("/searchresult/<search_item>", methods=['GET', 'POST'])
 def searchresult(search_item):
     if request.method == 'GET':
-        result = model.search(search_item)
-        if result:
-            return render_template('search.html', restaurants = result)
+        business_ids = model.search(search_item)
+        restaurants=[]
+        for x in business_ids:
+            restaurants.append(model.get_restaurant_data(x[0]))
+        random.shuffle(restaurants)
+        if len(restaurants)>0:
+            return render_template('dashboard.html', restaurants = restaurants[:10],message = "Is this the restaurant you are looking for?")
         else:
-            return render_template('search.html', message = "bad search item")
+            user_name='%s' % escape(session['username'])
+            user_name= model.get_id_in_matrix(user_name)
+            if(user_name== None):
+                user_name= model.get_random_username()
+            restaurants=model.get_restaurants(user_name)
+            random.shuffle(restaurants)
+            return render_template('dashboard.html', restaurants = restaurants[:10], message = "Restaurant cannot be found but here are some restaurants you may like. ")
 
 
 @app.route('/review',methods=['GET','POST'])
@@ -119,12 +131,12 @@ def review():
         business_id = request.form['business_id']
         review = request.form['review']
         star = int(request.form['star'])
-        user_name = model.get_user_id(business_id,star)
+        user_name = model.get_user_id(business_id,star, user_name)
         #star = model.get_star(review)
         model.add_review_to_db(user_name,business_id,star,review)
         restaurants = model.get_restaurants(user_name)
-
-        return render_template('dashboard.html', restaurants = restaurants[:10])
+        random.shuffle(restaurants)
+        return render_template('dashboard.html', restaurants = restaurants[:10],message = "Jungle recommends these fine establishments based on your profile!")
 
 
 if __name__=="__main__":

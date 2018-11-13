@@ -22,8 +22,6 @@ result_1.to_sql('restaurants', disk_engine, index=False, if_exists='append')
 #df_review = df.loc[:, ['user_id', 'business_id', 'stars','date', 'text']]
 #df_review.rename(columns = {'text': 'review'}, inplace = True)
 
-
-
 '''
 engine = create_engine('sqlite:///Jungle.db')
 df = pd.read_csv("description_in_matrix1.csv")
@@ -35,6 +33,7 @@ engine = create_engine('sqlite:///Jungle.db')
 df = pd.read_csv("reviews_in_matrix.csv")
 df = df.drop(['Unnamed: 0','funny','useful','cool','review_id'],axis=1)
 df.to_sql('reviews',con=engine,index=False, if_exists='append')
+
 
 
 

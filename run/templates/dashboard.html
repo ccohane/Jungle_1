@@ -1,10 +1,13 @@
 {% extends "structure.html" %}
 {% block main %}
+
+<h4 class="ml-5">{{ message }}</h4>
+<hr>
 {% for restaurant in restaurants %}
 <div class="row mt-2">
         <div class="ml-sm-auto col-lg-4 px-4">
             <h3>{{ restaurant['Name'] }}</h3>
-            <h5>{{ restaurant['Yelps Average Star'] }}</h5>
+            <h5>Average Star Review: {{ restaurant['Yelps Average Star'] }}</h5>
             <small>{{ restaurant['Address'] }} {{ restaurant['Town'] }}</small>
             <p>{{ restaurant['Categories'] }}</p>
         </div>

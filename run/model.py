@@ -45,7 +45,7 @@ def get_restaurants(user_name):
     recommend = pickle.load(file)
     file.close()
     x=recommend[user_name]
-    y= x.nlargest(10).index
+    y= x.nlargest(50).index
     y=list(y)
     restaurants=[]
     for z in y:
@@ -112,73 +112,49 @@ def add_review_to_db(user_name,business_id,stars,review):
 
 def get_preference(preference):
     with Database() as db:
-        _length = len(preference)
         db.c.execute('''SELECT categories, business_id FROM restaurants;''')
         results=db.c.fetchall()
         recommends=[]
         for x in results:
             if(all(y in x[0] for y in preference)):
                 recommends.append(x[1])
+        if len(recommends)==0:
+            for x in results:
+                if(y in x[0] for y in preference):
+                    recommends.append(x[1])
         return recommends
 
-def get_user_id(business_id,star):
+def get_user_id(business_id,star,username):
     with Database() as db:
         db.c.execute('''SELECT user_id FROM reviews WHERE business_id = '{}' AND stars = {};'''.format(business_id,star))
         results=db.c.fetchall()
+        count=0
+        while(len(results)==0):
+            db.c.execute('''SELECT user_id FROM reviews WHERE business_id = '{}' AND stars = {};'''.format(business_id,star+count))
+            results=db.c.fetchall()
+            count+=1
+        db.c.execute('''UPDATE users SET user_id = '{}' WHERE username = '{}'; '''.format(results[0][0],username))
         return results[0][0]
 
-
-
-
-def get_review_ML_score(business_id):
-    '''
-    '''
-    #restaurants = [{'name': 'Taco Bell', 'mlstar':5, 'Address': '456 Madison'}]
-
-    pass
-
-def preference_to_restaurants(preference):
-    '''
-    based on the preference provided, recommend restaurants
-    '''
-    dic_restaurants = {}
+def get_id_in_matrix(username):
     with Database() as db:
-        for element in preference:
-            db.c.execute('''SELECT name FROM restaurants WHERE categories LIKE '%{}%';'''.format(element))
-            results=db.c.fetchall()
-            if results:
-                for row in results:
-                    if row[0] not in dic_restaurants.keys():
-                        dic_restaurants[row[0]] = 1
-                    else:
-                        dic_restaurants[row[0]] += 1
-        sort_restaurants = sorted((value, key) for (key, value) in dic_restaurants.items())
-        sort_restaurants.reverse()
-        #if len(sort_restaurants) <= 5:
-            #for restaurant in sort_restaurants:
-                #db.c.execute('''SELECT name, stars, address, state, city, postal_code FROM restaurants WHERE name ={};'''.format(restaurant[1]))
+        db.c.execute('''SELECT user_id FROM users WHERE username = '{}';'''.format(username))
+        results=db.c.fetchone()
+        return results[0]
 
-    return sort_restaurants
-    #for i in range(5):
+def get_random_username():
+    with Database() as db:
+        db.c.execute('''SELECT user_id FROM reviews WHERE stars= 5;''')
+        results=db.c.fetchall()
+        return results[0][0]
 
 def search(search_item):
     '''search the item in restaurant name column
     '''
     with Database() as db:
-        db.c.execute('''SELECT name, stars, address, state, city, postal_code FROM restaurants WHERE name LIKE '%{}%';'''.format(search_item))
+        db.c.execute('''SELECT business_id FROM restaurants WHERE name LIKE '%{}%';'''.format(search_item))
         results=db.c.fetchall()
-        if results:
-            restaurants = []
-            for row in results:
-                dic = {
-                    'name': row[0],
-                    'mlstar': row[1],
-                    'Address': row[2]+' '+row[3]+' '+row[4]+' '+row[5]
-                }
-                restaurants.append(dic)
-            return restaurants
-        else:
-            return False
+        return results
 
 
 get_restaurants('-0IiMAZI2SsQ7VmyzJjokQ')
