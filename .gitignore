@@ -1,3 +1,5 @@
 *.pkl
 *.db
 *.pyc
+/run/data/*
+/run/lib/*
