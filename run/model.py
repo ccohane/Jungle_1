@@ -38,10 +38,11 @@ def check_user(user_name, password):
 
 def get_restaurants(user_name):
     '''
-    Create a recommendation algorith to get a list of restaurants and information about restaurants
+    Create a recommendation algorithm to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
     file = open("final_recommend_pickle.pkl",'rb')
+
     # add encoding to unicode decode error - 11/13
     recommend = pickle.load(file, encoding='latin1')
     file.close()
@@ -89,10 +90,15 @@ def get_restaurant_data(restaurant_id):
     with Database() as db:
         db.c.execute('''SELECT * FROM restaurants WHERE business_id = '{}';'''.format(restaurant_id))
         results=db.c.fetchone()
+        ls_category = results[2][1:-1].split(', ')
+        new_category = [element[2:-1] for element in ls_category]
+        new_category_str = ''
+        for _ in new_category:
+            new_category_str += _ + ', '
         results= {'Name': results[3],
                   'Address': results[6],
                   'Town': results[8] + ", "+results[7] + " "+ results[9],
-                  'Categories': results[2],
+                  'Categories': new_category_str[:-2],
                   'Yelps Average Star': results[5],
                   'Review Count': results[4],
                   'Business_id': results[1] }

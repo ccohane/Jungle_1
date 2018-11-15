@@ -58,6 +58,8 @@ def dashboard():
     if request.method == 'GET':
         user_name='%s' % escape(session['username'])
         user_name= model.get_id_in_matrix(user_name)
+        if(user_name== None):
+            user_name= model.get_random_username()
         restaurants=model.get_restaurants(user_name)
         random.shuffle(restaurants)
         return render_template('dashboard.html', restaurants = restaurants[:10], message = "Jungle recommends these fine establishments based on your profile!")
@@ -67,7 +69,7 @@ def dashboard():
         #when preference is chosen, form data will be used 
         #to recommend restaurants
         preference = request.form.getlist('preference')
-        restaurants = model.preference_to_restaurants(preference)
+        restaurants = model.get_restaurants(user_name)
         random.shuffle(restaurants)
         return render_template('dashboard.html', restaurants = restaurants[:10],message = "Jungle recommends these fine establishments based on your profile!")
 '''
