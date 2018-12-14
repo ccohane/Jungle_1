@@ -41,7 +41,7 @@ def get_restaurants(user_name):
     Create a recommendation algorithm to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
-    file = open("final_recommend_pickle.pkl",'rb')
+    file = open("run/final_recommend_pickle.pkl",'rb')
 
     # add encoding to unicode decode error - 11/13
     recommend = pickle.load(file, encoding='latin1')
@@ -59,7 +59,7 @@ def get_restaurants_user_sim(user_name):
     Create a recommendation algorith to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
-    file = open("user_similarity_recommend.pkl",'rb')
+    file = open("run/user_similarity_recommend.pkl",'rb')
     recommend = pickle.load(file)
     file.close()
     x=recommend[user_name]
@@ -75,7 +75,7 @@ def get_restaurants_item_sim(user_name):
     Create a recommendation algorith to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
-    file = open("item_similarity_recommend.pkl",'rb')
+    file = open("run/item_similarity_recommend.pkl",'rb')
     recommend = pickle.load(file)
     file.close()
     x=recommend[user_name]
@@ -105,7 +105,7 @@ def get_restaurant_data(restaurant_id):
         return results
 
 def get_star(review):
-    file = open("my_classifier.pkl",'rb')
+    file = open("run/my_classifier.pkl",'rb')
     classifier = pickle.load(file)
     file.close()
     star = classifier.classify(review)
