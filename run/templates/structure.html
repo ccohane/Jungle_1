@@ -22,24 +22,21 @@
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0 " href="/dashboard">Jungle</a>
         <div class="ml-sm-auto col-lg-8 px-4 mt-2">
-            </div>
+        </div>
         <a class="navbar-brand col-sm-3 col-md-1 mr-0 " href="/preference">Preference</a>
         <a class="navbar-brand col-sm-3 col-md-1 mr-0 " href="/logout">Log Out</a>
     </nav>
-            <form action="/search" class="form-inline" method="POST">
-              <input class="form-control mr-sm-2 w-50" name="search" type="text" placeholder="Restaurant Name" value="" required>
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+        <form action="/search" class="form-inline" method="POST">
+          <input class="form-control mr-sm-2 w-50" name="search" type="text" placeholder="Restaurant Name" value="" required>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
     
 </div>
-    <hr>
+<div>
     {% block main %}
     
-    {% endblock main %} 
-        
-
-
-
+    {% endblock main %}
+</div> 
 </body>
 
 </html>

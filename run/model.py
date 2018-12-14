@@ -38,11 +38,13 @@ def check_user(user_name, password):
 
 def get_restaurants(user_name):
     '''
-    Create a recommendation algorith to get a list of restaurants and information about restaurants
+    Create a recommendation algorithm to get a list of restaurants and information about restaurants
     Return as a list of dictionaries 
     '''
     file = open("final_recommend_pickle.pkl",'rb')
-    recommend = pickle.load(file)
+
+    # add encoding to unicode decode error - 11/13
+    recommend = pickle.load(file, encoding='latin1')
     file.close()
     x=recommend[user_name]
     y= x.nlargest(50).index
