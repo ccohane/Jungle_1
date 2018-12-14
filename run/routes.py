@@ -141,5 +141,5 @@ def review():
 
 if __name__=="__main__":
     #FIXME change the following server setings from 127.1 to 0.0.0.0
-    app.run(host="127.1", port="5000", debug=True)
+    app.run(host="0.0.0.0", port="1997", debug=True)
     

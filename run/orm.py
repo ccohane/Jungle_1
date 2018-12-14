@@ -6,7 +6,7 @@ import sqlite3
 class Database():
 
     def __init__(self):
-        self.connection=sqlite3.connect("jungle.db",check_same_thread=False)
+        self.connection=sqlite3.connect("Jungle.db",check_same_thread=False)
         self.c=self.connection.cursor()
 
     def __enter__(self):

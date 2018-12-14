@@ -24,13 +24,13 @@ result_1.to_sql('restaurants', disk_engine, index=False, if_exists='append')
 
 '''
 engine = create_engine('sqlite:///Jungle.db')
-df = pd.read_csv("description_in_matrix1.csv")
+df = pd.read_csv("run/description_in_matrix1.csv")
 df = df.drop(['Unnamed: 0'],axis=1)
 df.to_sql('restaurants',con=engine,index=False, if_exists='append')
 
 
 engine = create_engine('sqlite:///Jungle.db')
-df = pd.read_csv("reviews_in_matrix.csv")
+df = pd.read_csv("run/reviews_in_matrix.csv")
 df = df.drop(['Unnamed: 0','funny','useful','cool','review_id'],axis=1)
 df.to_sql('reviews',con=engine,index=False, if_exists='append')
 
