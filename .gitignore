@@ -1,10 +1,5 @@
 *.pkl
 *.db
 *.pyc
-<<<<<<< HEAD
 *.out
 run/lib/
-=======
-/run/data/*
-/run/lib/*
->>>>>>> 14b8919bd75dec38b04f7f9a7913f37012fcca8b
